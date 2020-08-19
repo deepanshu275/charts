@@ -10,7 +10,11 @@ filebeatConfig:
       processors:
       - add_kubernetes_metadata:
           in_cluster: true
-
+      - drop_event.when.regexp:
+       or:
+       - kubernetes.namespace: "kube-system"
+       - kubernetes.namespace: "cattle-system"
+     
     output.elasticsearch:
       hosts: '${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}'
 
